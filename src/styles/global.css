@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  /* Define Fonts */
+  --font-sans: "Exo 2", sans-serif;
+
+  /* Define Colors */
+  --color-nebula-black: #050505;
+  --color-nebula-dark: #0a0a0a;
+  --color-nebula-blue: #00f3ff;
+  --color-nebula-glass: rgba(255, 255, 255, 0.05);
+}
+
+/* Global Styles */
+body {
+  /* Now these classes exist because of the @theme block above */
+  @apply bg-nebula-black text-white antialiased overflow-x-hidden;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-nebula-blue/30 rounded-full;
+}

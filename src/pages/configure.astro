@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PersistentCar from '../components/global/PersistentCar.astro';
+import Configurator from '../components/react/Configurator';
+---
+
+<Layout title="Studio | Configure">
+  <PersistentCar viewState="left" />
+
+  <main class="relative z-20">
+    <Configurator client:load />
+  </main>
+</Layout>

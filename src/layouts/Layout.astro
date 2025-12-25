@@ -1,0 +1,37 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Nebula Motors - Silence is the new loud." />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+        <ClientRouter />
+	</head>
+	<body>
+        <nav class="fixed top-0 w-full z-50 flex justify-between p-6 mix-blend-difference text-white uppercase tracking-widest">
+			<a href="/" class="font-bold">Nebula</a>
+			<div class="space-x-8 text-sm">
+				<a href="/configure" class="hover:text-nebula-blue transition">Studio</a>
+				<a href="/nebula" class="hover:text-nebula-blue transition">Engineering</a>
+				<a href="/vision" class="hover:text-nebula-blue transition">Vision</a>
+			</div>
+		</nav>
+
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>

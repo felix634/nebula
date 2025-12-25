@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExplodedView from '../components/react/ExplodedView';
+---
+
+<Layout title="Engineering | Deconstructed">
+  <div class="bg-white text-black min-h-screen">
+      <div class="h-screen flex items-center justify-center">
+          <h1 class="text-6xl font-bold">The Engineering.</h1>
+      </div>
+      
+      <ExplodedView client:only="react" />
+  </div>
+</Layout>

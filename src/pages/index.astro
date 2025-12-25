@@ -1,16 +1,25 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import PersistentCar from '../components/global/PersistentCar.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Nebula Motors | The Future">
+  <PersistentCar viewState="center" />
+
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+      <source src="/neon-tunnel.mp4" type="video/mp4" />
+    </video>
+    
+    <div class="relative z-0 text-center">
+      <h1 class="text-[12rem] font-bold leading-none tracking-tighter text-white mix-blend-overlay">
+        NEBULA
+      </h1>
+      <p class="text-xl tracking-[0.5em] text-nebula-blue mt-4 uppercase">Silence is the new loud</p>
+    </div>
+  </section>
+  
+  <section class="h-screen bg-nebula-black flex items-center justify-center">
+    <h2 class="text-4xl text-gray-500">Scroll Linked Video Section Here</h2>
+  </section>
+</Layout>

@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LidarCanvas from '../components/react/LidarCanvas';
+---
+
+<Layout title="Vision | Autopilot">
+  <div class="relative h-screen w-full overflow-hidden bg-black">
+    
+    <div class="absolute inset-0 opacity-50">
+        <img src="/lidar-street.jpg" alt="Street View" class="w-full h-full object-cover grayscale" />
+    </div>
+
+    <LidarCanvas client:only="react" />
+
+    <div class="relative z-20 h-full flex items-center justify-center pointer-events-none">
+        <div class="text-center">
+            <h1 class="text-6xl font-bold tracking-tighter mb-2 text-white">NEBULA VISION</h1>
+            <p class="text-nebula-blue tracking-[0.5em] uppercase text-sm bg-black/50 inline-block px-4 py-1">
+                Lidar Confidence: 99.9%
+            </p>
+        </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,21 @@
+---
+interface Props {
+  viewState: 'center' | 'left' | 'exploded';
+}
+
+const { viewState } = Astro.props;
+
+// Tailwind classes based on state
+const positionClasses = {
+  center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-100',
+  left: 'top-1/2 left-[20%] -translate-x-1/2 -translate-y-1/2 scale-75',
+  exploded: 'top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 scale-90 opacity-0', // Hidden, handled by React on that page
+};
+---
+
+<div 
+  transition:name="hero-car" 
+  class={`fixed z-10 w-[800px] pointer-events-none transition-all duration-700 ease-out ${positionClasses[viewState]}`}
+>
+  <img src="/car-side-view.png" alt="Nebula One" class="w-full drop-shadow-2xl" />
+</div>
