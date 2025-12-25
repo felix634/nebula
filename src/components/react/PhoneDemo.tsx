@@ -1,11 +1,12 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useScroll, useMotionValueEvent } from 'framer-motion';
+import { useRef, useState } from 'react';
 
 // Screen content components
 const ScreenUnlock = () => (
     <div className="h-full bg-nebula-black flex flex-col items-center justify-center text-white">
         <div className="w-16 h-16 rounded-full border-2 border-nebula-blue flex items-center justify-center mb-4">
-            <span className="material-icons">lock_open</span>
+            {/* Simple icon representation */}
+            <span className="text-3xl">🔓</span>
         </div>
         <p className="tracking-widest uppercase text-xs">Vehicle Unlocked</p>
     </div>
@@ -33,12 +34,15 @@ export default function PhoneDemo() {
   // Transform scroll progress to screen index (0, 1, or 2)
   const [activeScreen, setActiveScreen] = useState(0);
 
-  // We use a listener to update state based on scroll
-  useTransform(scrollYProgress, (value) => {
-      if (value < 0.3) setActiveScreen(0);
-      else if (value < 0.6) setActiveScreen(1);
-      else setActiveScreen(2);
-      return value;
+  // FIX: Use useMotionValueEvent instead of useTransform for side effects
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+      if (latest < 0.3) {
+          setActiveScreen(0);
+      } else if (latest < 0.6) {
+          setActiveScreen(1);
+      } else {
+          setActiveScreen(2);
+      }
   });
 
   return (
