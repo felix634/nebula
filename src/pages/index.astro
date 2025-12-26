@@ -1,27 +1,32 @@
 ---
+// src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
-import PersistentCar from '../components/global/PersistentCar.astro';
 ---
 
 <Layout title="Nebula Motors | The Future">
-  <PersistentCar viewState="center" />
-
+  
   <section class="relative h-screen w-full overflow-hidden bg-black">
     
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 bg-gradient-to-t from-nebula-black via-transparent to-black/40 z-10"></div> <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-60">
+        <div class="absolute inset-0 bg-gradient-to-t from-nebula-black via-transparent to-black/40 z-10"></div> 
+        <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-60">
             <source src="/neon-tunnel.mp4" type="video/mp4" />
         </video>
     </div>
     
-    <div class="relative z-10 h-full flex flex-col items-center justify-center pt-20">
-      <h1 class="text-[12vw] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/10 opacity-80 mix-blend-overlay">
+    <div class="relative z-10 h-full flex flex-col items-center justify-center">
+      
+      <h1 class="text-[12vw] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/50 opacity-90">
         NEBULA
       </h1>
-      <div class="mt-96"> <p class="text-nebula-blue tracking-[0.8em] text-sm uppercase font-bold">
-              Silence is the new loud
-          </p>
+      
+      <div class="mt-6 text-center"> 
+        <p class="text-nebula-blue tracking-[0.4em] md:tracking-[0.8em] text-2xl md:text-4xl uppercase font-bold">
+            Silence is the new loud
+        </p>
       </div>
+      
     </div>
+
   </section>
 </Layout>
