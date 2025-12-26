@@ -2,15 +2,17 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 // Component for the labels
-const ComponentLabel = ({ title, desc, topPosition, width, opacity }: { title: string, desc: string, topPosition: string, width: string, opacity: any }) => (
+const ComponentLabel = ({ title, desc, subDesc, topPosition, width, opacity }: { title: string, desc: string, subDesc?: string, topPosition: string, width: string, opacity: any }) => (
   <motion.div 
-    // FIX 1: Merged 'opacity' and 'top' into ONE style object. No more error.
     style={{ opacity: opacity, top: topPosition }} 
     className={`absolute right-0 flex items-center z-50 pointer-events-none`} 
   >
-      <div className="w-[200px] md:w-[250px] text-right pr-4">
-          <h3 className="text-lg md:text-xl font-bold text-nebula-blue mb-1 tracking-wider uppercase">{title}</h3>
-          <p className="text-xs text-gray-400 font-light leading-snug">{desc}</p>
+      {/* Increased width to 300px to accommodate more text */}
+      <div className="w-[300px] text-right pr-6">
+          <h3 className="text-xl md:text-2xl font-bold text-nebula-blue mb-1 tracking-wider uppercase">{title}</h3>
+          <p className="text-sm text-gray-300 font-medium">{desc}</p>
+          {/* New Sub-description for extra detail */}
+          {subDesc && <p className="text-xs text-gray-500 mt-1 font-mono uppercase tracking-widest">{subDesc}</p>}
       </div>
       
       <div 
@@ -32,20 +34,13 @@ export default function ExplodedView() {
 
   // --- TRANSFORMS ---
 
-  // 1. Movement Logic: 
-  // We stop the movement at 75% ([0, 0.75]) so the car stays "still" and disassembled for the last 25% of the scroll.
-  const yBody = useTransform(scrollYProgress, [0, 0.75], [0, -100]); 
+  // 1. Vertical Spread (Kept large to match your "Top/Bottom" lines)
+  const yBody = useTransform(scrollYProgress, [0, 0.75], [0, -180]); 
   const yBattery = useTransform(scrollYProgress, [0, 0.75], [0, 0]);
-  const yChassis = useTransform(scrollYProgress, [0, 0.75], [0, 100]);
+  const yChassis = useTransform(scrollYProgress, [0, 0.75], [0, 180]);
 
-  // 2. Opacity Logic (The Overlap Fix):
-  
-  // Full Car fades OUT from 0% to 25%
+  // 2. Opacity Logic
   const fullCarOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
-  
-  // Parts fade IN from 15% to 35%
-  // Notice the overlap: between 15% and 25%, BOTH are partially visible.
-  // This ensures the screen is NEVER empty.
   const layersOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]); 
 
   return (
@@ -61,9 +56,10 @@ export default function ExplodedView() {
         <div className="container mx-auto max-w-6xl flex items-center relative h-full px-4">
             
             {/* --- LEFT COLUMN: TEXT --- */}
-            <div className="w-1/2 h-full relative flex flex-col justify-center z-50">
+            {/* Added pr-20 to push the whole text column further LEFT */}
+            <div className="w-1/2 h-full relative flex flex-col justify-center z-50 pr-10 md:pr-20">
                 
-                {/* 1. Original Title (Linked to Full Car Opacity) */}
+                {/* 1. Original Title */}
                 <motion.div style={{ opacity: fullCarOpacity }} className="absolute right-0 text-right pr-4 md:pr-10">
                     <h2 className="text-4xl md:text-7xl font-bold mb-4 md:mb-6 tracking-tighter">Total<br/>Transparency.</h2>
                     <p className="text-sm md:text-lg text-gray-300 max-w-xs md:max-w-md ml-auto leading-relaxed">
@@ -71,27 +67,38 @@ export default function ExplodedView() {
                     </p>
                 </motion.div>
 
-                {/* 2. Component Labels (Linked to Layers Opacity) */}
-                <div className="absolute inset-y-0 right-[-10px] w-full h-full">
+                {/* 2. Component Labels */}
+                <div className="absolute inset-y-0 right-[-10px] w-full h-full flex flex-col justify-center relative">
+                    {/* SPREAD ADJUSTMENTS:
+                        Carbon Body: Moved UP to 25% (was 30%)
+                        Battery: Kept at 50%
+                        Chassis: Moved DOWN to 75% (was 70%)
+                        
+                        WIDTH ADJUSTMENTS:
+                        Increased width values to bridge the new gap since we pushed text left.
+                    */}
                     <ComponentLabel 
                         title="Carbon Body" 
-                        desc="Ultra-lightweight weave."
-                        topPosition="38%"
-                        width="60px" 
+                        desc="Ultra-lightweight weave structure."
+                        subDesc="7000 Series Alloy / Drag Coeff 0.19"
+                        topPosition="25%" 
+                        width="100px" 
                         opacity={layersOpacity} 
                     />
                     <ComponentLabel 
                         title="Solid-State Battery" 
-                        desc="150kWh cobalt-free."
+                        desc="150kWh cobalt-free architecture."
+                        subDesc="Liquid Cooled / 800V Architecture"
                         topPosition="50%"
-                        width="120px"
+                        width="160px"
                         opacity={layersOpacity} 
                     />
                      <ComponentLabel 
                         title="Active Chassis" 
-                        desc="Dual-motor powertrain."
-                        topPosition="62%"
-                        width="80px"
+                        desc="Integrated dual-motor powertrain."
+                        subDesc="Air Suspension / Torque Vectoring"
+                        topPosition="75%"
+                        width="120px"
                         opacity={layersOpacity} 
                     />
                 </div>
@@ -101,29 +108,29 @@ export default function ExplodedView() {
             {/* --- RIGHT COLUMN: THE CARS --- */}
             <div className="w-1/2 h-full relative flex items-center justify-start pl-2 md:pl-10">
                 
-                {/* The Full Car (Fades out) */}
+                {/* The Full Car */}
                 <motion.img 
                   src="/layers/full-car.png" 
                   alt="Nebula One Assembled"
                   style={{ opacity: fullCarOpacity }}
-                  className="absolute w-full max-w-[600px] max-h-[60vh] z-40 pointer-events-none object-contain drop-shadow-2xl"
+                  className="absolute w-full max-w-[600px] max-h-[70vh] z-40 pointer-events-none object-contain drop-shadow-2xl"
                 />
 
-                {/* The Layers (Fade in + Move) */}
+                {/* The Layers */}
                 <motion.img 
                   style={{ y: yBody, opacity: layersOpacity }}
                   src="/layers/body.png" alt="Body Shell"
-                  className="absolute w-full max-w-[600px] max-h-[60vh] z-30 object-contain drop-shadow-[0_-20px_30px_rgba(0,0,0,0.5)]" 
+                  className="absolute w-full max-w-[600px] max-h-[70vh] z-30 object-contain drop-shadow-[0_-20px_30px_rgba(0,0,0,0.5)]" 
                 />
                 <motion.img 
                   style={{ y: yBattery, opacity: layersOpacity }}
                   src="/layers/battery.png" alt="Battery Pack"
-                  className="absolute w-full max-w-[600px] max-h-[60vh] z-20 object-contain drop-shadow-[0_0_30px_rgba(0,243,255,0.2)]" 
+                  className="absolute w-full max-w-[600px] max-h-[70vh] z-20 object-contain drop-shadow-[0_0_30px_rgba(0,243,255,0.2)]" 
                 />
                 <motion.img 
                   style={{ y: yChassis, opacity: layersOpacity }}
                   src="/layers/chassis.png" alt="Chassis Frame"
-                  className="absolute w-full max-w-[600px] max-h-[60vh] z-10 object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" 
+                  className="absolute w-full max-w-[600px] max-h-[70vh] z-10 object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]" 
                 />
             </div>
         </div>
