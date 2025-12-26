@@ -27,39 +27,74 @@ const { title } = Astro.props;
 	</head>
 	<body class="bg-nebula-black text-white overflow-x-hidden antialiased selection:bg-nebula-blue selection:text-black">
 		
-        <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-6 sm:px-12 sm:py-8 mix-blend-difference">
+        <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 mix-blend-difference">
 			
-            <a href="/" class="text-2xl font-bold tracking-tighter uppercase z-50 text-white">
+            <a href="/" class="text-2xl font-bold tracking-tighter uppercase z-50 text-white relative">
                 Nebula
             </a>
 
             <div class="hidden md:flex gap-8 text-xs font-bold tracking-[0.2em] uppercase bg-white/5 backdrop-blur-md px-8 py-3 rounded-full border border-white/10 shadow-2xl">
-				<a href="/configure" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
-                    Studio
-                </a>
-				<a href="/nebula" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
-                    Engineering
-                </a>
-				<a href="/vision" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
-                    Vision
-                </a>
-                <a href="/performance" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
-                    Data
-                </a>
-                <a href="/app" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
-                    App
-                </a>
+				<a href="/configure" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">Studio</a>
+				<a href="/nebula" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">Engineering</a>
+				<a href="/vision" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">Vision</a>
+                <a href="/performance" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">Data</a>
+                <a href="/app" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">App</a>
 			</div>
 
-            <button class="md:hidden text-white">
-                <span class="block w-6 h-0.5 bg-current mb-1"></span>
-                <span class="block w-6 h-0.5 bg-current mb-1"></span>
-                <span class="block w-4 h-0.5 bg-current ml-auto"></span>
+            <button id="menu-toggle" class="md:hidden z-50 text-white focus:outline-none relative w-8 h-8 flex flex-col justify-center items-end gap-1.5 group">
+                <span class="block w-8 h-0.5 bg-current transition-all duration-300 origin-right group-[.open]:-rotate-45 group-[.open]:w-6"></span>
+                <span class="block w-6 h-0.5 bg-current transition-all duration-300 group-[.open]:opacity-0"></span>
+                <span class="block w-4 h-0.5 bg-current transition-all duration-300 origin-right group-[.open]:rotate-45 group-[.open]:w-6"></span>
             </button>
 		</nav>
+
+        <div id="mobile-menu" class="fixed inset-0 z-40 bg-nebula-black/95 backdrop-blur-xl flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="flex flex-col gap-8 text-2xl font-bold tracking-[0.2em] uppercase text-center">
+                <a href="/configure" class="mobile-link hover:text-nebula-blue transition-colors">Studio</a>
+                <a href="/nebula" class="mobile-link hover:text-nebula-blue transition-colors">Engineering</a>
+                <a href="/vision" class="mobile-link hover:text-nebula-blue transition-colors">Vision</a>
+                <a href="/performance" class="mobile-link hover:text-nebula-blue transition-colors">Data</a>
+                <a href="/app" class="mobile-link hover:text-nebula-blue transition-colors">App</a>
+            </div>
+        </div>
 
 		<main>
 			<slot />
 		</main>
+
+        <script>
+            // Runs on every page navigation (View Transitions compatible)
+            document.addEventListener('astro:page-load', () => {
+                const menuToggle = document.getElementById('menu-toggle');
+                const mobileMenu = document.getElementById('mobile-menu');
+                const mobileLinks = document.querySelectorAll('.mobile-link');
+
+                if (menuToggle && mobileMenu) {
+                    menuToggle.addEventListener('click', () => {
+                        // Toggle the hamburger animation state
+                        menuToggle.classList.toggle('open');
+                        
+                        // Toggle the menu visibility
+                        const isOpen = mobileMenu.classList.contains('opacity-0');
+                        if (isOpen) {
+                            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                            mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                        } else {
+                            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                        }
+                    });
+
+                    // Close menu when a link is clicked
+                    mobileLinks.forEach(link => {
+                        link.addEventListener('click', () => {
+                            menuToggle.classList.remove('open');
+                            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                        });
+                    });
+                }
+            });
+        </script>
 	</body>
 </html>
