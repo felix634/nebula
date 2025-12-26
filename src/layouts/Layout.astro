@@ -18,16 +18,44 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
         <ClientRouter />
 	</head>
-	<body>
-        <nav class="fixed top-0 w-full z-50 flex justify-between p-6 mix-blend-difference text-white uppercase tracking-widest">
-			<a href="/" class="font-bold">Nebula</a>
-			<div class="space-x-8 text-sm">
-				<a href="/configure" class="hover:text-nebula-blue transition">Studio</a>
-				<a href="/nebula" class="hover:text-nebula-blue transition">Engineering</a>
-				<a href="/vision" class="hover:text-nebula-blue transition">Vision</a>
+	<body class="bg-nebula-black text-white overflow-x-hidden antialiased selection:bg-nebula-blue selection:text-black">
+		
+        <nav class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-6 sm:px-12 sm:py-8 mix-blend-difference">
+			
+            <a href="/" class="text-2xl font-bold tracking-tighter uppercase z-50 text-white">
+                Nebula
+            </a>
+
+            <div class="hidden md:flex gap-8 text-xs font-bold tracking-[0.2em] uppercase bg-white/5 backdrop-blur-md px-8 py-3 rounded-full border border-white/10 shadow-2xl">
+				<a href="/configure" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
+                    Studio
+                </a>
+				<a href="/nebula" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
+                    Engineering
+                </a>
+				<a href="/vision" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
+                    Vision
+                </a>
+                <a href="/performance" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
+                    Data
+                </a>
+                <a href="/app" class="hover:text-nebula-blue hover:shadow-[0_0_15px_rgba(0,243,255,0.5)] transition-all duration-300">
+                    App
+                </a>
 			</div>
+
+            <button class="md:hidden text-white">
+                <span class="block w-6 h-0.5 bg-current mb-1"></span>
+                <span class="block w-6 h-0.5 bg-current mb-1"></span>
+                <span class="block w-4 h-0.5 bg-current ml-auto"></span>
+            </button>
 		</nav>
 
 		<main>
