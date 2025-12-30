@@ -40,9 +40,6 @@ const PhoneDemo = () => {
   const [activeFeature, setActiveFeature] = useState(FEATURES[0]);
 
   return (
-    // UPDATED CONTAINER: 
-    // - Removed h-full (let flexbox handle it)
-    // - Added items-center to perfectly align Text and Phone vertically
     <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-24 px-4 lg:px-8">
       
       {/* --- LEFT: TEXT CONTENT --- */}
@@ -91,10 +88,7 @@ const PhoneDemo = () => {
       {/* --- RIGHT: PHONE MOCKUP --- */}
       <div className="w-full lg:w-1/2 flex justify-center items-center order-1 lg:order-2">
         
-        {/* PHONE FRAME 
-            - max-h-[80vh]: Ensures it never gets taller than the screen allows.
-            - aspect-ratio: Maintains shape if it shrinks.
-        */}
+        {/* PHONE FRAME */}
         <div className="relative w-[300px] h-[600px] max-h-[75vh] bg-[#1a1a1a] rounded-[3rem] border-8 border-[#333] shadow-[0_0_60px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(0,0,0,0.8)] overflow-hidden shrink-0 transform transition-transform duration-500 hover:scale-[1.02]">
             
             {/* Dynamic Notch */}
@@ -176,7 +170,7 @@ const PhoneDemo = () => {
                         </motion.div>
                     )}
 
-                    {/* 4. CHARGE */}
+                    {/* 4. CHARGE (FIXED ALIGNMENT) */}
                     {activeFeature.id === 'charge' && (
                         <motion.div 
                             key="charge"
@@ -187,12 +181,18 @@ const PhoneDemo = () => {
                         >
                             <div className="w-32 h-56 border-4 border-white/20 rounded-2xl p-2 relative mb-6">
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-full w-12 h-4 bg-white/20 rounded-t-sm"></div>
+                                
+                                {/* FIXED BATTERY FILL ELEMENT */}
                                 <motion.div 
                                     initial={{ height: '0%' }}
                                     animate={{ height: '80%' }}
                                     transition={{ duration: 1.5, ease: "circOut" }}
-                                    className="w-full bg-gradient-to-t from-nebula-blue to-[#00f3ff] rounded-lg absolute bottom-2 left-2 right-2 w-[calc(100%-16px)] shadow-[0_0_20px_rgba(0,243,255,0.4)]"
+                                    // Removed conflicting 'w-full' and fixed width calculations.
+                                    // Relying solely on absolute positioning (left-2, right-2) 
+                                    // ensures it sits perfectly inside the container's padding.
+                                    className="bg-gradient-to-t from-nebula-blue to-[#00f3ff] rounded-lg absolute bottom-2 left-2 right-2 shadow-[0_0_20px_rgba(0,243,255,0.4)]"
                                 ></motion.div>
+
                             </div>
                             <h2 className="text-4xl font-bold text-white mb-1">820<span className="text-lg text-gray-400 font-normal ml-1">km</span></h2>
                             <p className="text-green-400 text-xs font-mono uppercase tracking-widest animate-pulse">Charging Superfast</p>
