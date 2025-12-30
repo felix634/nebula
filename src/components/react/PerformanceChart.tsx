@@ -1,71 +1,105 @@
-import { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import React from 'react';
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceDot
+} from 'recharts';
 
 const data = [
-  { time: '0s', nebula: 0, gas: 0 },
-  { time: '1s', nebula: 30, gas: 15 },
-  { time: '2s', nebula: 60, gas: 35 },
-  { time: '3s', nebula: 85, gas: 55 },
-  { time: '4s', nebula: 100, gas: 70 }, // 0-100 in ~4s
-  { time: '5s', nebula: 120, gas: 90 },
+  { time: '0s', nebula: 0, competitor: 0 },
+  { time: '1s', nebula: 45, competitor: 28 },
+  { time: '1.9s', nebula: 100, competitor: 55 }, 
+  { time: '3s', nebula: 160, competitor: 95 },
+  { time: '4s', nebula: 220, competitor: 140 },
+  { time: '5s', nebula: 280, competitor: 180 },
 ];
 
-export default function PerformanceChart() {
-  const [hoverVal, setHoverVal] = useState(0);
-
+const PerformanceChart = () => {
   return (
-    <div className="w-full max-w-4xl bg-nebula-dark/50 border border-white/10 p-8 rounded-xl backdrop-blur-sm">
-      <div className="flex justify-between items-center mb-8">
-        <h3 className="text-2xl font-light">0-100 km/h Acceleration</h3>
-        <div className="flex gap-4 text-sm">
-            <span className="text-nebula-blue">● Nebula One</span>
-            <span className="text-gray-500">● Competitor</span>
+    <div className="w-full h-[500px] bg-white/5 border border-white/10 rounded-xl p-4 md:p-8 relative overflow-hidden backdrop-blur-sm">
+      
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+        <div>
+          <h3 className="text-3xl font-bold text-white tracking-tight">0-100 km/h Acceleration</h3>
+          <p className="text-gray-400 text-sm mt-1 font-mono">TEST CONDITIONS: DRY ASPHALT / 22°C / 98% SOC</p>
+        </div>
+        <div className="flex gap-6">
+            <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-nebula-blue shadow-[0_0_10px_#00f3ff]"></div>
+                <span className="text-nebula-blue font-bold text-sm uppercase tracking-wider">Nebula One</span>
+            </div>
+            <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-gray-600"></div>
+                <span className="text-gray-500 font-bold text-sm uppercase tracking-wider">Competitor</span>
+            </div>
         </div>
       </div>
 
-      <div className="h-[400px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-            <XAxis dataKey="time" stroke="#666" />
-            <YAxis stroke="#666" />
-            <Tooltip 
-                contentStyle={{ backgroundColor: '#000', borderColor: '#333' }}
-                itemStyle={{ color: '#fff' }}
-            />
-            <Line 
-                type="monotone" 
-                dataKey="nebula" 
-                stroke="#00f3ff" 
-                strokeWidth={3} 
-                dot={{ r: 6, fill: '#00f3ff' }}
-                activeDot={{ r: 8 }}
-            />
-            <Line 
-                type="monotone" 
-                dataKey="gas" 
-                stroke="#444" 
-                strokeWidth={2} 
-                strokeDasharray="5 5" 
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+      {/* The Chart */}
+      <ResponsiveContainer width="100%" height="80%">
+        <LineChart data={data} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={true} horizontal={true} />
+          
+          <XAxis 
+            dataKey="time" 
+            stroke="#666" 
+            tick={{ fill: '#666', fontSize: 12, fontFamily: 'monospace' }} 
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis 
+            stroke="#666" 
+            tick={{ fill: '#666', fontSize: 12, fontFamily: 'monospace' }} 
+            tickLine={false} 
+            axisLine={false}
+            unit=" km/h"
+          />
+          
+          <Tooltip 
+            contentStyle={{ backgroundColor: '#09090b', border: '1px solid #333', borderRadius: '4px' }}
+            itemStyle={{ color: '#fff', fontFamily: 'monospace', fontSize: '12px' }}
+            cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 2 }}
+          />
 
-      <div className="mt-6 flex justify-between text-center">
-          <div>
-              <p className="text-gray-400 text-xs uppercase tracking-widest">Top Speed</p>
-              <p className="text-3xl font-bold">250 <span className="text-base text-nebula-blue">mph</span></p>
-          </div>
-          <div>
-              <p className="text-gray-400 text-xs uppercase tracking-widest">0-60 mph</p>
-              <p className="text-3xl font-bold">1.9 <span className="text-base text-nebula-blue">sec</span></p>
-          </div>
-          <div>
-              <p className="text-gray-400 text-xs uppercase tracking-widest">Range</p>
-              <p className="text-3xl font-bold">520 <span className="text-base text-nebula-blue">mi</span></p>
-          </div>
-      </div>
+          {/* 1. Competitor Line */}
+          <Line 
+            type="monotone" 
+            dataKey="competitor" 
+            stroke="#4b5563" 
+            strokeWidth={2} 
+            strokeDasharray="5 5" 
+            dot={false}
+            activeDot={{ r: 6, fill: '#4b5563' }}
+            isAnimationActive={true}
+          />
+
+          {/* 2. THE GLOW LINE (The Fix) */}
+          {/* This is a thick, transparent line behind the main one. It renders instantly without glitching. */}
+          <Line 
+            type="monotone" 
+            dataKey="nebula" 
+            stroke="#00f3ff" 
+            strokeWidth={12} 
+            strokeOpacity={0.15}
+            dot={false}
+            isAnimationActive={true}
+          />
+
+          {/* 3. The Main Sharp Line */}
+          <Line 
+            type="monotone" 
+            dataKey="nebula" 
+            stroke="#00f3ff" 
+            strokeWidth={3} 
+            dot={{ r: 4, fill: '#000', stroke: '#00f3ff', strokeWidth: 2 }} 
+            activeDot={{ r: 6, fill: '#00f3ff', stroke: '#fff' }}
+            isAnimationActive={true}
+          />
+
+          <ReferenceDot x="1.9s" y={100} r={5} fill="#fff" stroke="none" />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
-}
+};
+
+export default PerformanceChart;

@@ -1,22 +1,150 @@
 ---
+// src/pages/performance.astro
 import Layout from '../layouts/Layout.astro';
 import PerformanceChart from '../components/react/PerformanceChart';
+import GlowingCard from '../components/react/GlowingCard';
+
+// Updated Data with Technical Descriptions
+const specs = [
+  {
+    category: "POWERTRAIN",
+    items: [
+      { 
+        label: "Max Power", 
+        value: "1,200 hp", 
+        desc: "Tri-motor configuration with independent vectoring." 
+      },
+      { 
+        label: "Max Torque", 
+        value: "1,400 Nm", 
+        desc: "Instant delivery from 0 RPM via carbon-sleeved rotors." 
+      },
+      { 
+        label: "Top Speed", 
+        value: "410 km/h", 
+        desc: "Electronically limited. Unlocked via Track Mode software." 
+      },
+      { 
+        label: "0-100 km/h", 
+        value: "1.9 s", 
+        desc: "Tested on drag strip surface with rollout subtracted." 
+      },
+    ]
+  },
+  {
+    category: "DIMENSIONS",
+    items: [
+      { 
+        label: "Length", 
+        value: "4,970 mm", 
+        desc: "Optimized for aerodynamic efficiency (Cd 0.19)." 
+      },
+      { 
+        label: "Width", 
+        value: "1,964 mm", 
+        desc: "Includes extended carbon-fiber mirrors." 
+      },
+      { 
+        label: "Curb Weight", 
+        value: "1,950 kg", 
+        desc: "Achieved via structural battery pack integration." 
+      },
+      { 
+        label: "Cargo Cap", 
+        value: "800 L", 
+        desc: "Combined storage: Rear trunk + Front 'Frunk' capacity." 
+      },
+    ]
+  },
+  {
+    category: "CHARGING & RANGE",
+    items: [
+      { 
+        label: "Range (WLTP)", 
+        value: "820 km", 
+        desc: "Real-world highway efficiency estimated at 710 km." 
+      },
+      { 
+        label: "Architecture", 
+        value: "800 V", 
+        desc: "Silicon Carbide (SiC) inverters for minimal heat loss." 
+      },
+      { 
+        label: "Max Charge", 
+        value: "350 kW", 
+        desc: "Peak intake rate at V4 Superchargers." 
+      },
+      { 
+        label: "10-80%", 
+        value: "18 min", 
+        desc: "Requires pre-conditioning battery thermal management." 
+      },
+    ]
+  }
+];
 ---
 
-<Layout title="Performance | Data">
-  <div class="min-h-screen bg-nebula-black flex flex-col items-center justify-center p-10 relative overflow-hidden">
+<Layout title="Nebula - Data">
+  
+  <div class="fixed top-0 left-0 w-full h-24 bg-black/90 backdrop-blur-md z-40 border-b border-white/5"></div>
+
+  <main class="w-full min-h-screen bg-black text-white pt-32 pb-20 px-4 md:px-10">
     
-    <div class="absolute inset-0 z-0 opacity-10" 
-         style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 50px 50px;">
-    </div>
+    <div class="max-w-7xl mx-auto">
+      
+      {/* HERO HEADER */}
+      <div class="mb-12">
+        <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
+          Unfair <span class="text-nebula-blue">Advantage.</span>
+        </h1>
+        <p class="text-gray-400 text-lg max-w-2xl">
+          The numbers don't lie. Nebula One isn't just faster than the competition; 
+          it defines an entirely new category of performance efficiency.
+        </p>
+      </div>
 
-    <div class="relative z-10 w-full max-w-5xl">
-        <h1 class="text-5xl font-bold mb-12 text-center">Unfair Advantage.</h1>
-        
-        <div class="flex justify-center">
-            <PerformanceChart client:visible />
+      {/* CHART SECTION */}
+      <section class="mb-20">
+        <PerformanceChart client:only="react" />
+      </section>
+
+      {/* SPECS GRID */}
+      <section>
+        <div class="flex items-center gap-4 mb-8">
+            <div class="h-[1px] bg-gray-800 flex-grow"></div>
+            <h2 class="text-gray-500 font-mono tracking-widest text-sm uppercase">Technical Specifications</h2>
+            <div class="h-[1px] bg-gray-800 flex-grow"></div>
         </div>
-    </div>
 
-  </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* MOUSE-TRACKING GLOWING CARDS */}
+          {specs.map((group) => (
+            <GlowingCard 
+                client:visible 
+                category={group.category} 
+                items={group.items} 
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* WARRANTY FOOTER & DOWNLOAD */}
+      <div class="mt-8 p-8 rounded-xl bg-gradient-to-r from-nebula-blue/5 to-transparent border border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+            <h4 class="text-white font-bold text-lg mb-1">Nebula Shield Warranty</h4>
+            <p class="text-gray-400 text-sm">Including 8-year Unlimited Mile Battery & Drive Unit Warranty</p>
+        </div>
+        
+        {/* PDF DOWNLOAD LINK */}
+        <a 
+          href="/nebula-one-specs.pdf" 
+          download="Nebula_One_Technical_Specs.pdf"
+          class="px-6 py-3 bg-transparent border border-nebula-blue text-nebula-blue font-bold rounded text-sm hover:bg-nebula-blue hover:text-black transition-all uppercase tracking-widest text-center"
+        >
+            Download Spec Sheet
+        </a>
+      </div>
+
+    </div>
+  </main>
 </Layout>
