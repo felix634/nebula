@@ -58,7 +58,6 @@ const VisionSlider = () => {
     >
       {/* 1. MACHINE VISION LAYER (Background - Full Width) */}
       <div className="absolute inset-0 z-0">
-        {/* Since you are photoshopping the frames, this image now contains everything */}
         <img 
           src="/vision-lidar.jpg" 
           alt="Nebula AI Vision" 
@@ -102,7 +101,9 @@ const VisionSlider = () => {
         <p className="text-red-500 text-xs mt-1 font-mono">VISIBILITY: LOW</p>
       </div>
 
-      <div className="absolute bottom-10 right-10 z-30 pointer-events-none text-right">
+      {/* UPDATED: Added background, padding, and border to make this readable.
+      */}
+      <div className="absolute bottom-10 right-10 z-30 pointer-events-none text-right bg-black/70 backdrop-blur-md p-4 rounded border border-white/10 shadow-2xl">
         <h3 className="text-nebula-blue text-sm tracking-[0.4em] font-bold shadow-black drop-shadow-md">NEBULA AI</h3>
         <p className="text-nebula-blue text-xs mt-1 font-mono">CONFIDENCE: 99.9%</p>
       </div>
