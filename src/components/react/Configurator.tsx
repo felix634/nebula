@@ -68,14 +68,10 @@ const Configurator = () => {
   const topSpeed = hasTrackPack ? '410 km/h' : '350 km/h';
 
   return (
-    // REMOVED 'pt-24' from here to fix the gap issue.
-    <div className="flex flex-col lg:flex-row w-full bg-black text-white pb-12">
+    <div className="flex flex-col lg:flex-row w-full bg-black text-white">
       
-      {/* --- LEFT: VISUALIZER (FIXED) --- 
-          - h-[calc(100vh-6rem)]: Makes it exactly the height of the viewport minus the header.
-          - sticky top-24: Locks it in place under the header.
-      */}
-      <div className="w-full lg:w-2/3 h-[50vh] lg:h-[calc(100vh-6rem)] lg:sticky lg:top-24 flex flex-col items-center justify-center relative overflow-hidden bg-black z-10">
+      {/* --- LEFT: VISUALIZER (FIXED) --- */}
+      <div className="w-full lg:w-2/3 h-[50vh] lg:h-[calc(100vh-6rem)] lg:fixed lg:top-24 lg:left-0 flex flex-col items-center justify-center relative overflow-hidden bg-black z-10">
         
         {/* Background Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[50%] bg-nebula-blue/20 blur-[100px] rounded-full pointer-events-none"></div>
@@ -96,27 +92,30 @@ const Configurator = () => {
            </AnimatePresence>
         </div>
 
-        {/* Live Stats Overlay */}
-        <div className="flex gap-8 md:gap-12 mt-4 md:mt-8 z-20">
+        {/* LIVE STATS OVERLAY (UPDATED POSITION)
+            - Removed margin-top (mt-0).
+            - Added negative translate-y to pull it closer to the car image.
+        */}
+        <div className="flex gap-8 md:gap-16 mt-0 -translate-y-4 md:-translate-y-8 z-20">
             <div className="text-center">
-                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase">0-100 km/h</p>
-                <p className="text-2xl md:text-3xl font-bold text-white transition-all">{accel}</p>
+                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase mb-1">0-100 km/h</p>
+                <p className="text-2xl md:text-4xl font-bold text-white transition-all">{accel}</p>
             </div>
             <div className="text-center">
-                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase">Top Speed</p>
-                <p className="text-2xl md:text-3xl font-bold text-white">{topSpeed}</p>
+                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase mb-1">Top Speed</p>
+                <p className="text-2xl md:text-4xl font-bold text-white">{topSpeed}</p>
             </div>
             <div className="text-center">
-                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase">Range</p>
-                <p className="text-2xl md:text-3xl font-bold text-white">820 km</p>
+                <p className="text-gray-500 text-[10px] md:text-xs font-mono tracking-widest uppercase mb-1">Range</p>
+                <p className="text-2xl md:text-4xl font-bold text-white">820 km</p>
             </div>
         </div>
       </div>
 
       {/* --- RIGHT: CONTROL PANEL (SCROLLABLE) --- */}
-      <div className="w-full lg:w-1/3 px-6 lg:px-12 py-6 flex flex-col gap-8 lg:gap-10">
+      <div className="w-full lg:w-1/3 lg:ml-[66.666667%] px-6 lg:px-12 py-6 flex flex-col gap-8 lg:gap-10 min-h-[calc(100vh-6rem)]">
         
-        {/* Header Section - Reduced Margin */}
+        {/* Header Section */}
         <div className="mb-2 mt-4">
             <h1 className="text-4xl font-bold tracking-tighter text-white">Configure One.</h1>
             <p className="text-gray-400 mt-2 text-sm">Estimated Delivery: Dec 2025</p>
@@ -184,7 +183,7 @@ const Configurator = () => {
             </div>
         </section>
 
-        {/* 4. FOOTER / PRICE (Sticky Bottom) */}
+        {/* 4. FOOTER / PRICE */}
         <div className="mt-auto pt-6 border-t border-white/10 sticky bottom-0 bg-black/95 backdrop-blur-lg pb-6 -mx-6 px-6 lg:-mx-12 lg:px-12 z-30">
             <div className="flex justify-between items-center mb-4">
                  <div>
