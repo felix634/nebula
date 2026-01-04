@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - Signal Lost">
+  <main class="w-full h-screen bg-black flex flex-col items-center justify-center text-center p-4 relative overflow-hidden">
+    
+    <div class="absolute inset-0 opacity-10 pointer-events-none" 
+         style="background-image: url('https://grainy-gradients.vercel.app/noise.svg');">
+    </div>
+
+    <div class="relative mb-6">
+        <h1 class="text-[120px] md:text-[200px] font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-800 tracking-tighter leading-none relative z-10">
+            404
+        </h1>
+        <span class="absolute top-0 left-1 text-nebula-blue opacity-50 mix-blend-screen animate-pulse text-[120px] md:text-[200px] font-bold tracking-tighter leading-none">404</span>
+        <span class="absolute top-0 -left-1 text-red-500 opacity-50 mix-blend-screen animate-pulse text-[120px] md:text-[200px] font-bold tracking-tighter leading-none" style="animation-delay: 0.1s">404</span>
+    </div>
+
+    <h2 class="text-xl md:text-2xl text-nebula-blue font-mono uppercase tracking-[0.5em] mb-6">
+        Signal Lost
+    </h2>
+
+    <p class="text-gray-400 max-w-md mb-10 font-mono text-sm">
+        The coordinates you are looking for do not exist in this sector. 
+        Return to mission control immediately.
+    </p>
+
+    <a href="/" class="group relative px-8 py-4 bg-transparent border border-white/20 hover:border-nebula-blue transition-colors">
+        <span class="absolute inset-0 bg-nebula-blue/10 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
+        <span class="relative text-white font-bold uppercase tracking-widest text-sm">Return Home</span>
+    </a>
+
+  </main>
+</Layout>
